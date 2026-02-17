@@ -1,13 +1,27 @@
-// ────────────── Output Configuration ──────────────
-// You can run `niri msg outputs` to get the correct name for your displays.
-// You will have to remove "/-" and edit it before it takes effect.
-// https://github.com/YaLTeR/niri/wiki/Configuration:-Outputs
-
-output "DP-1" {
-    mode "2560x1600@164.999" // Set resolution and refresh rate
-    scale 2 // No scaling (use 2 for HiDPI)
+// Laptop - centered below the three monitors
+output "eDP-1" {
+    mode "2560x1600@164.999"
+    scale 1.5
+    position x=2026 y=1080
 }
+
+// Left external monitor
+output "DP-5" {
+    mode "1920x1080@60.000"
+    scale 1
+    position x=0 y=0
+}
+
+// Center external monitor
 output "DP-3" {
-    mode "3840x2160@60.000" // Set resolution and refresh rate
-    scale 2 // No scaling (use 2 for HiDPI)
+    mode "1920x1080@60.000"
+    scale 1
+    position x=3840 y=0
+}
+
+// Right external monitor (supports 100Hz if you want it)
+output "DP-4" {
+    mode "1920x1080@59.934"
+    scale 1
+    position x=1920 y=0
 }
