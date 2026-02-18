@@ -10,9 +10,14 @@ input {
         natural-scroll
     }
     mouse {
-        accel-speed 0.0  // Range: -1.0 (slowest) to 1.0 (fastest), 0.0 is default
-        accel-profile "flat"  // Uncomment for no acceleration (linear/raw input)
+        accel-speed -0.5
+        accel-profile "flat"
     }
     focus-follows-mouse
     workspace-auto-back-and-forth
+    disable-power-key-handling
+}
+cursor {
+    hide-when-typing
+    hide-after-inactive-ms 1000
 }
