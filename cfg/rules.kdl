@@ -6,13 +6,13 @@ window-rule {
 // to find window ids and titles,
 // run: `niri msg windows` with window open
 
-/-window-rule {
+window-rule {
     match app-id="Alacritty"
     match title="Alacritty"
-    open-floating true
-    open-maximized false
-    default-column-width { proportion 0.75; }
-    default-window-height { proportion 0.75;  }
+//    open-floating true
+    open-maximized true
+   // default-column-width { proportion 0.75; }
+  //default-window-height { proportion 0.75;  }
 }
 window-rule {
     match app-id="com.obsproject.Studio"   
