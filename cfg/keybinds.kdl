@@ -13,6 +13,7 @@ binds {
     Mod+Return                    hotkey-overlay-title="Open Terminal: Foot" { spawn "foot"; }
     //Mod+D                               hotkey-overlay-title="Open App Launcher: noctalia launcher" { spawn-sh "qs -c noctalia-shell ipc call launcher toggle"; }
     Mod+D                               hotkey-overlay-title="Open App Launcher: fuzzel launcher" { spawn-sh "fuzzel"; }
+    Mod+Shift+D                               hotkey-overlay-title="Open App Launcher: nwg-drawer launcher" { spawn-sh "nwg-drawer"; }
     Mod+B                               hotkey-overlay-title="Open Browser: Brave" { spawn "brave"; }
     Mod+L                                 hotkey-overlay-title="Lock Screen: noctalia lock" { spawn-sh "qs -c noctalia-shell ipc call lockScreen lock"; }
     Mod+Shift+E                           hotkey-overlay-title="Session Menu: noctalia sessionMenu" { spawn-sh "qs -c noctalia-shell ipc call sessionMenu toggle"; }
