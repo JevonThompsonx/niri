@@ -120,6 +120,7 @@ binds {
     // ─── Modes ───
     Mod+T                               { toggle-window-floating; }
     Mod+F                               { fullscreen-window; }
+    Mod+M                               hotkey-overlay-title="Toggle Maximize" { maximize-column; }
     Mod+W                               { toggle-column-tabbed-display; }
 
     // ─── Screenshots ───

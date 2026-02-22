@@ -10,17 +10,8 @@ window-rule {
     match app-id="Alacritty"
     match title="Alacritty"
 //    open-floating true
-    open-maximized true
    // default-column-width { proportion 0.75; }
   //default-window-height { proportion 0.75;  }
-}
-window-rule {
-    match app-id="com.obsproject.Studio"   
-    open-maximized true
-}
-window-rule {
-    match app-id="brave-browser"   
-    open-maximized true
 }
 layer-rule {
     match namespace="^noctalia-wallpaper*"
