@@ -124,9 +124,11 @@ binds {
     Mod+W                               { toggle-column-tabbed-display; }
 
     // ─── Screenshots ───
-    CTRL+S                        { screenshot; }
+    CTRL+S                              { screenshot; }
     CTRL+Shift+S                        { screenshot-screen; }
     CTRL+Shift+3                        { screenshot-window; }
+    Alt+D                          hotkey-overlay-title="Screenshot: Save to file" { spawn-sh "grim -g \"$(slurp)\" ~/Pictures/Screenshots/screenshot_$(date +%Y%m%d_%H%M%S).png"; }
+    Alt+CTRL+D                    hotkey-overlay-title="Screenshot: Copy to clipboard" { spawn-sh "grim -g \"$(slurp)\" - | wl-copy"; }
 
     // ─── Emergency Escape Key ───
     // Use this when a fullscreen app blocks your keybinds.
