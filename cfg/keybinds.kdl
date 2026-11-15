@@ -165,6 +165,8 @@ binds {
     Mod+Shift+F                         { fullscreen-window; }
     Mod+W                               { toggle-column-tabbed-display; }
     Mod+M                              { maximize-window-to-edges; }
+    // Both maximize actions toggle.
+    Mod+Shift+M                         { maximize-column; }
 
     // ─── Screenshots ───
     CTRL+Shift+1                        { screenshot; }
