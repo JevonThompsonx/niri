@@ -123,6 +123,29 @@ Screenshots land in `~/Pictures/Screenshots/` and are copied to the clipboard.
 - Mouse: flat accel, -0.5 speed
 - Focus follows mouse (only for fully visible windows), cursor hides after 1s
 
+## Troubleshooting
+
+### A window ignores `Mod+F` (maximize toggle)
+
+Symptom: one window sits at full width and `Mod+F` does nothing, while other
+windows toggle normally.
+
+Cause: niri stores a per-column width, and that column is in the *expanded*
+state (`Mod+Ctrl+F`, `expand-column-to-available-width`) instead of merely
+maximized. Expanded and maximized both render at full width, so toggling flips a
+flag with no visible change.
+
+Fix: reset the column's width once, then the toggle works:
+
+| Reset | Effect |
+|-------|--------|
+| `Mod+R` | Cycle the preset widths (verified fix) |
+| `Mod+-`/`Mod+=` | Set width ±10% |
+| `Mod+Ctrl+F` | Only expands further; does **not** undo |
+
+`Maximize`/`unmaximize` itself was verified working on the affected window
+(708 → 1424 → 708) once the width had been reset.
+
 ## Install
 
 ```sh
