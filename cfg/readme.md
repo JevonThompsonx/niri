@@ -73,7 +73,8 @@ Mod = Super.
 |---------|--------|
 | `Mod+Q` | Close window |
 | `Mod+T` | Toggle floating |
-| `Mod+F` / `Mod+Shift+F` | Maximize column / fullscreen |
+| `Mod+F` | Fullscreen |
+| `Mod+Shift+F` | Maximize column (keeps gaps) |
 | `Mod+M` | Maximize to edges |
 | `Mod+W` | Toggle tabbed column |
 | `Mod+C` / `Mod+Ctrl+C` | Center column / all visible columns |
@@ -92,7 +93,8 @@ Mod = Super.
 | `Mod+Home`/`Mod+End` | Focus first/last column |
 | `Mod+Tab` | Previous workspace |
 | `Mod+1…9` | Focus workspace |
-| `Mod+Ctrl+1…9` | Move column to workspace |
+| `Mod+Shift+1…9` | Move focused column to workspace |
+| `Mod+Ctrl+1…9` | Move column to workspace (same as above) |
 
 ### Screenshots & System
 | Binding | Action |
