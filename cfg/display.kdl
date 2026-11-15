@@ -1,27 +1,25 @@
-// Laptop - centered below the three monitors
-output "eDP-1" {
-    mode "2560x1600@164.999"
-    scale 1.5
-    position x=2026 y=1080
-}
+// ────────────── Display Configuration: pan ──────────────
+// MacBookPro14,3. The Intel iGPU is powered off on this host
+// (disable-intel-gpu.service via vgaswitcheroo), so the internal panel is
+// driven by the AMD Radeon Pro 560 and appears as eDP-1 on the amdgpu card.
+// Run `niri msg outputs` inside a session to confirm names/modes after a
+// kernel or firmware update.
+//
+// 2880x1800 @ 2.0 = 1440x900 logical (owner's choice, 2026-11-15).
 
-// Left external monitor
-output "DP-5" {
-    mode "1920x1080@60.000"
-    scale 1
+output "eDP-1" {
+    // Mode left on auto: niri picks the panel's preferred mode (2880x1800).
+    // Pin it explicitly if the panel ever comes up at 1920x1200.
+    // mode "2880x1800@60.000"
+    scale 2
+    transform "normal"
     position x=0 y=0
 }
 
-// Center external monitor
-output "DP-3" {
-    mode "1920x1080@60.000"
-    scale 1
-    position x=3840 y=0
-}
-
-// Right external monitor (supports 100Hz if you want it)
-output "DP-4" {
-    mode "1920x1080@59.934"
-    scale 1
-    position x=1920 y=0
-}
+// External displays — uncomment/adjust after plugging them in and running
+// `niri msg outputs`. Logical positions must account for scale.
+// /-output "DP-1" {
+//     mode "1920x1080@60.000"
+//     scale 1
+//     position x=1920 y=0
+// }
