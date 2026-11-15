@@ -73,10 +73,9 @@ Mod = Super.
 |---------|--------|
 | `Mod+Q` | Close window |
 | `Mod+T` | Toggle floating |
-| `Mod+F` | Toggle fullscreen ↔ tiled |
-| `Mod+Shift+F` | Fullscreen (same toggle action) |
+| `Mod+F` | Toggle maximize column ↔ tiled (keeps gaps) |
+| `Mod+Shift+F` | Toggle fullscreen (no gaps, bar hidden) |
 | `Mod+M` | Toggle maximize to edges |
-| `Mod+Shift+M` | Toggle maximize column (keeps gaps) |
 | `Mod+W` | Toggle tabbed column |
 | `Mod+C` / `Mod+Ctrl+C` | Center column / all visible columns |
 | `Mod+Ctrl+F` | Expand column to available width |
