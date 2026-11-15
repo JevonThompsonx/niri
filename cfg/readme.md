@@ -73,8 +73,8 @@ Mod = Super.
 |---------|--------|
 | `Mod+Q` | Close window |
 | `Mod+T` | Toggle floating |
-| `Mod+F` | Fullscreen |
-| `Mod+Shift+F` | Maximize column (keeps gaps) |
+| `Mod+F` | Toggle fullscreen ↔ tiled |
+| `Mod+Shift+F` | Fullscreen (same toggle action) |
 | `Mod+M` | Maximize to edges |
 | `Mod+W` | Toggle tabbed column |
 | `Mod+C` / `Mod+Ctrl+C` | Center column / all visible columns |
@@ -88,7 +88,7 @@ Mod = Super.
 |---------|--------|
 | `Mod+H/J/K/L` or arrows | Focus left/down/up/right |
 | `Mod+Ctrl+H/J/K/L` or arrows | Move column/window |
-| `Mod+Shift+arrows` | Focus monitor |
+| `Mod+Shift+arrows` | Move window up/down in column, column left/right |
 | `Mod+Shift+Ctrl+arrows` | Move column to monitor |
 | `Mod+Home`/`Mod+End` | Focus first/last column |
 | `Mod+Tab` | Previous workspace |
