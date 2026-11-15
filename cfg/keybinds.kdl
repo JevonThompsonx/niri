@@ -161,12 +161,14 @@ binds {
 
     // ─── Modes ───
     Mod+T                               { toggle-window-floating; }
-    Mod+F                               { fullscreen-window; }
+
+    // Mod+F toggles the maximized state: tiled <-> maximized (gaps kept).
+    Mod+F                               { maximize-column; }
+    // Mod+Shift+F is real fullscreen (no gaps, bar hidden); also a toggle.
     Mod+Shift+F                         { fullscreen-window; }
+
     Mod+W                               { toggle-column-tabbed-display; }
     Mod+M                              { maximize-window-to-edges; }
-    // Both maximize actions toggle.
-    Mod+Shift+M                         { maximize-column; }
 
     // ─── Screenshots ───
     CTRL+Shift+1                        { screenshot; }
