@@ -1,20 +1,25 @@
-    prefer-no-csd
-    screenshot-path null
+prefer-no-csd
 
-    environment {
-        ELECTRON_OZONE_PLATFORM_HINT "auto"
-        QT_QPA_PLATFORM "wayland"
-        QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
-        XDG_SESSION_TYPE "wayland"
-        XDG_CURRENT_DESKTOP "niri"
-        QT_QPA_PLATFORMTHEME "gtk3"
-    }
+// Save screenshots instead of dropping them into the void; niri still copies
+// them to the clipboard. %-escapes are strftime(3).
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
-    debug {
-        // Allows notification actions and window activation from Noctalia.
-        honor-xdg-activation-with-invalid-serial
-    }
+environment {
+    ELECTRON_OZONE_PLATFORM_HINT "auto"
+    QT_QPA_PLATFORM "wayland"
+    QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+    QT_QPA_PLATFORMTHEME "gtk3"
+    // Firefox/Thunderbird native Wayland (also avoids XWayland input-method weirdness).
+    MOZ_ENABLE_WAYLAND "1"
+    XCURSOR_THEME "capitaine-cursors"
+    XCURSOR_SIZE "24"
+}
 
-    hotkey-overlay {
-       skip-at-startup
-    }
+debug {
+    // Allows notification actions and window activation from Noctalia.
+    honor-xdg-activation-with-invalid-serial
+}
+
+hotkey-overlay {
+    skip-at-startup
+}

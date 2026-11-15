@@ -1,19 +1,62 @@
+// ────────────── Window / Layer Rules ──────────────
+// Find window ids and titles with `niri msg windows` while a window is open.
+
+// Rounded corners + clipping for every window.
 window-rule {
-    geometry-corner-radius 20 // Set every window radius to 20
+    geometry-corner-radius 20
     clip-to-geometry true
 }
 
-// to find window ids and titles,
-// run: `niri msg windows` with window open
-
+// Noctalia's own windows: settings + annotator open floating at a sane size.
 window-rule {
-    match app-id="Alacritty"
-    match title="Alacritty"
-//    open-floating true
-   // default-column-width { proportion 0.75; }
-  //default-window-height { proportion 0.75;  }
+    match app-id="dev.noctalia.Noctalia"
+    open-floating true
+    default-column-width { fixed 1080; }
+    default-window-height { fixed 920; }
 }
+
+// Firefox picture-in-picture should float, not tile.
+window-rule {
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+// Blur windows (niri 26.04+). xray=false samples the actual content behind.
+window-rule {
+    background-effect {
+        blur true
+        xray false
+    }
+}
+
+// Noctalia shells surfaces publish their own blur regions; xray off keeps
+// rounded-corner anti-aliasing from leaking wallpaper pixels.
 layer-rule {
-    match namespace="^noctalia-wallpaper*"
+    match namespace="^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"
+    background-effect {
+        xray false
+    }
+}
+
+layer-rule {
+    match namespace="noctalia-window-switcher"
+    background-effect {
+        blur true
+        xray false
+    }
+}
+
+// Stationary wallpaper: Noctalia's wallpaper layer lives in niri's backdrop,
+// visible through the transparent layout background and in the overview.
+layer-rule {
+    match namespace="^noctalia-wallpaper"
     place-within-backdrop true
 }
+
+// Optional: hide password managers from screen capture / screencasts.
+// /-window-rule {
+//     match app-id=r#"^com\.bitwarden\.Bitwarden$"#
+//     match app-id=r#"^org\.gnome\.World\.Secrets$"#
+//     block-out-from "screen-capture"
+//     block-out-from "screencast"
+// }

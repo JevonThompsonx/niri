@@ -1,5 +1,15 @@
-// ────────────── Startup Applications ──────────────
-// https://github.com/YaLTeR/niri/wiki/Configuration:-Miscellaneous#spawn-sh-at-startup
+// ────────────── Startup ──────────────
+// niri 26.04 spawns xwayland-satellite automatically when it is installed,
+// so X11 apps (Steam, older games) work without an extra line here.
+//
+// Started through `niri-session`, niri.service pulls in
+// xdg-desktop-autostart.target, so /etc/xdg/autostart entries already handle:
+//   - polkit-kde-authentication-agent-1 (polkit prompts)
+//   - gnome-keyring-secrets / -pkcs11 (org.freedesktop.secrets)
+//   - xdg-user-dirs, at-spi bus
+// Do not spawn those here as well: a second polkit or keyring daemon cannot
+// own its D-Bus name and just logs errors.
 
-    spawn-sh-at-startup "/usr/lib/polkit-kde-authentication-agent-1 &" // Polkit
-    spawn-sh-at-startup "qs -c noctalia-shell"
+// Desktop shell: bar, launcher, notifications, lock screen, wallpaper, OSD.
+// https://docs.noctalia.dev/noctalia/getting-started/installation/
+spawn-at-startup "noctalia"

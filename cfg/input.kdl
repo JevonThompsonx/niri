@@ -5,18 +5,33 @@ input {
         }
         numlock
     }
+
+    // Apple SPI touchpad (bcm5974). dwt = ignore touchpad while typing,
+    // dwtp = same for the trackpoint-free trackpad during pointer use.
     touchpad {
         tap
+        dwt
+        dwtp
+        drag true
+        drag-lock
         natural-scroll
+        accel-speed 0.2
+        accel-profile "adaptive"
     }
+
     mouse {
         accel-speed -0.5
         accel-profile "flat"
     }
-    focus-follows-mouse
+
+    focus-follows-mouse max-scroll-amount="0%"
     workspace-auto-back-and-forth
+
+    // Let logind own the power key (it also owns the lid switch) so a stray
+    // keypress can't hard-shutdown the laptop mid-session.
     disable-power-key-handling
 }
+
 cursor {
     hide-when-typing
     hide-after-inactive-ms 1000

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install.sh — Install all dependencies for this niri config
+# install.sh — Install the packages this niri config depends on.
 # Targets Arch Linux and derivatives (CachyOS, EndeavourOS, Manjaro, etc.)
 
 set -euo pipefail
@@ -13,57 +13,72 @@ die()     { echo -e "${RED}✗${NC} $*" >&2; exit 1; }
 
 # ── Sanity checks ─────────────────────────────────────────────────────────────
 command -v pacman &>/dev/null || die "pacman not found — run this on Arch Linux or a derivative."
-command -v git    &>/dev/null || die "git is required. Install it with: sudo pacman -S git"
 
 # ── AUR helper detection ──────────────────────────────────────────────────────
 AUR_HELPER=""
-for helper in yay paru; do
+for helper in paru yay; do
     command -v "$helper" &>/dev/null && { AUR_HELPER="$helper"; break; }
 done
-[[ -z "$AUR_HELPER" ]] && warn "No AUR helper (yay/paru) found — AUR packages will be skipped."
+[[ -z "$AUR_HELPER" ]] && warn "No AUR helper (paru/yay) found — AUR packages will be skipped."
 
 # ── Package lists ─────────────────────────────────────────────────────────────
 
 # Official repo packages (sudo pacman -S)
 PACMAN_PKGS=(
     # Compositor
-    niri                        # Wayland tiling compositor
+    niri                        # Wayland compositor; ships niri-session + session file
+
+    # Desktop shell (bar, launcher, notifications, lockscreen, wallpaper, OSD)
+    noctalia                    # CachyOS repo; AUR on plain Arch
 
     # Terminals
-    alacritty                   # Mod+Shift+Return
-    foot                        # Mod+Return
+    alacritty                   # Mod+Return
+    foot                        # spare terminal
 
-    # App launcher
-    fuzzel                      # Mod+D (dmenu-style Wayland launcher)
+    # Launchers / apps
+    fuzzel                      # fallback launcher
+    nautilus                    # Mod+E
 
-    # File manager
-    nautilus                    # Mod+E (GNOME Files)
+    # X11 apps through XWayland (niri spawns the satellite itself)
+    xwayland-satellite
 
-    # Browser — uncomment if you prefer the open-source build
-    # chromium
+    # Portals (file pickers, screen sharing)
+    xdg-desktop-portal
+    xdg-desktop-portal-gnome
+    xdg-desktop-portal-gtk
 
-    # Media / screen capture
-    obs-studio                  # window-rule defined for com.obsproject.Studio
-
-    # Polkit agent (autostart: /usr/lib/polkit-kde-authentication-agent-1)
+    # Polkit agent (started by xdg-desktop-autostart, not by niri)
     polkit-kde-agent
 
-    # Audio stack (noctalia-shell volume/media controls)
+    # Audio stack (Noctalia volume/media controls)
     pipewire
     pipewire-pulse
     wireplumber
 
-    # Portal backend (screen sharing, file pickers)
-    xdg-desktop-portal
-    xdg-desktop-portal-gnome    # niri-compatible portal impl
+    # Media / screenshot / quality-of-life
+    brightnessctl               # backlight + keyboard backlight
+    playerctl                   # MPRIS (used by Noctalia media widget)
+    wl-clipboard
+    cliphist                    # clipboard history backend
+    wlsunset                    # night light
+    mako                        # fallback notification daemon
+    swaybg                      # fallback wallpaper daemon
+
+    # Look & feel
+    capitaine-cursors
+    adw-gtk-theme
+    ttf-jetbrains-mono-nerd     # font used by the Alacritty theme
+    noto-fonts
+    noto-fonts-emoji
 )
 
-# AUR packages (require yay / paru)
-AUR_PKGS=(
-    brave-bin                   # Mod+B — Brave browser (window-rule: brave-browser)
-    nwg-drawer                  # Mod+Shift+D — grid app drawer
-    quickshell-git              # provides the `qs` binary used by noctalia-shell
-)
+# AUR packages (only needed on distros without noctalia in their repos)
+AUR_PKGS=()
+
+if ! pacman -Si noctalia &>/dev/null; then
+    warn "noctalia is not in your configured repos — it will come from the AUR."
+    AUR_PKGS=( noctalia )
+fi
 
 # ── Install official packages ─────────────────────────────────────────────────
 info "Installing official repo packages…"
@@ -71,39 +86,32 @@ sudo pacman -S --needed "${PACMAN_PKGS[@]}"
 ok "Official packages done."
 
 # ── Install AUR packages ──────────────────────────────────────────────────────
-if [[ -n "$AUR_HELPER" ]]; then
-    info "Installing AUR packages with $AUR_HELPER…"
-    "$AUR_HELPER" -S --needed "${AUR_PKGS[@]}"
-    ok "AUR packages done."
-else
-    warn "Skipping AUR packages (no helper found). Install manually:"
-    for pkg in "${AUR_PKGS[@]}"; do
-        warn "  • $pkg"
-    done
-    echo "  → Install yay: https://github.com/Jguer/yay"
-    echo "     or paru:     https://github.com/Morganamilo/paru"
-    echo "  Then re-run this script."
+if ((${#AUR_PKGS[@]})); then
+    if [[ -n "$AUR_HELPER" ]]; then
+        info "Installing AUR packages with $AUR_HELPER…"
+        "$AUR_HELPER" -S --needed "${AUR_PKGS[@]}"
+        ok "AUR packages done."
+    else
+        warn "Skipping AUR packages (no helper found):"
+        for pkg in "${AUR_PKGS[@]}"; do warn "  • $pkg"; done
+        echo "  → Install paru: https://github.com/Morganamilo/paru"
+    fi
 fi
 
-# ── noctalia-shell ────────────────────────────────────────────────────────────
-# noctalia-shell is the Quickshell-based UI layer providing:
-#   volume, brightness, media controls, lock screen, and session menu.
-# autostart.kdl launches it as: qs -c noctalia-shell
-#
-# Install from: https://docs.noctalia.dev/getting-started/installation/
-#
-info "Checking for noctalia-shell…"
-if command -v qs &>/dev/null; then
-    if qs --list 2>/dev/null | grep -q "noctalia-shell" || \
-       [[ -d "$HOME/.config/noctalia-shell" ]]; then
-        ok "noctalia-shell appears to be present."
-    else
-        warn "quickshell (qs) found, but noctalia-shell config not detected."
-        warn "Follow the install guide: https://docs.noctalia.dev/getting-started/installation/"
-    fi
-else
-    warn "quickshell (qs) not installed yet — install quickshell-git from AUR first,"
-    warn "then follow: https://docs.noctalia.dev/getting-started/installation/"
+# ── Hardware-rendering drop-in (niri runs as a systemd user service) ───────────
+# environment.d may carry COSMIC software-rendering workarounds; strip them for
+# niri so the compositor uses the GPU.
+DROPIN="$HOME/.config/systemd/user/niri.service.d/50-hardware-rendering.conf"
+if [[ -d "$HOME/.config/environment.d" ]] && grep -qs 'LIBGL_ALWAYS_SOFTWARE' \
+        "$HOME"/.config/environment.d/*.conf; then
+    info "Writing niri.service hardware-rendering drop-in…"
+    mkdir -p "$(dirname "$DROPIN")"
+    cat >"$DROPIN" <<'CONF'
+[Service]
+UnsetEnvironment=LIBGL_ALWAYS_SOFTWARE EGL_SOFTWARE GALLIUM_DRIVER
+CONF
+    systemctl --user daemon-reload || true
+    ok "Drop-in written: $DROPIN"
 fi
 
 # ── Summary ───────────────────────────────────────────────────────────────────
@@ -111,17 +119,10 @@ echo ""
 echo "────────────────────────────────────────────────────"
 ok "Installation complete!"
 echo ""
-echo "Apps accounted for:"
-echo "  niri              — compositor"
-echo "  alacritty, foot   — terminals (Mod+Shift+Return / Mod+Return)"
-echo "  fuzzel            — launcher (Mod+D)"
-echo "  nwg-drawer        — app drawer (Mod+Shift+D)"
-echo "  brave-bin         — browser (Mod+B)"
-echo "  nautilus          — file manager (Mod+E)"
-echo "  obs-studio        — screen recorder (window-rule)"
-echo "  polkit-kde-agent  — auth agent (autostart)"
-echo "  quickshell (qs)   — noctalia-shell runtime (autostart)"
-echo "  pipewire stack    — audio/media controls"
-echo "  xdg-desktop-portal-gnome — screen share / file pickers"
+echo "Next steps:"
+echo "  1. Copy this config to ~/.config/niri (config.kdl + cfg/)."
+echo "  2. Log out and pick 'Niri' at the greeter, or run 'niri-session' from a TTY."
+echo "  3. Noctalia runs its setup wizard on first launch."
 echo ""
-echo "Start niri from a TTY with: niri-session"
+echo "Do NOT autostart xwayland-satellite: niri 26.04 spawns it itself."
+echo "Polkit/keyring come from /etc/xdg/autostart via xdg-desktop-autostart.target."
