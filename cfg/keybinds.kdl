@@ -18,8 +18,8 @@ binds {
 
     // ─── noctalia panels ───
     Mod+Shift+Return                    hotkey-overlay-title="Wallpaper Selector" { spawn-sh "noctalia msg panel-toggle wallpaper"; }
-    Mod+S                               hotkey-overlay-title="Control Center" { spawn-sh "noctalia msg panel-toggle control-center"; }
-    Mod+Shift+S                         hotkey-overlay-title="Noctalia Settings" { spawn-sh "noctalia msg settings-toggle"; }
+    Mod+Alt+S                           hotkey-overlay-title="Control Center" { spawn-sh "noctalia msg panel-toggle control-center"; }
+    Mod+Alt+Shift+S                     hotkey-overlay-title="Noctalia Settings" { spawn-sh "noctalia msg settings-toggle"; }
     Mod+D                               hotkey-overlay-title="App Launcher" { spawn-sh "noctalia msg panel-toggle launcher"; }
     Mod+Space                           hotkey-overlay-title="App Launcher (alias)" { spawn-sh "noctalia msg panel-toggle launcher"; }
     Mod+CTRL+Return                     hotkey-overlay-title="App Launcher (alias)" { spawn-sh "noctalia msg panel-toggle launcher"; }
@@ -171,6 +171,10 @@ binds {
     Mod+M                              { maximize-window-to-edges; }
 
     // ─── Screenshots ───
+    // screenshot = interactive region picker (save + clipboard), then the
+    // whole monitor, then a single window.
+    Mod+S                               hotkey-overlay-title="Screenshot: region" { screenshot; }
+    Mod+Shift+S                         hotkey-overlay-title="Screenshot: full screen" { screenshot-screen; }
     CTRL+Shift+1                        { screenshot; }
     CTRL+Shift+2                        { screenshot-screen; }
     CTRL+Shift+3                        { screenshot-window; }

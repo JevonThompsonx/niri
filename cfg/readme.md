@@ -61,8 +61,8 @@ Mod = Super.
 | Binding | Action |
 |---------|--------|
 | `Mod+D`, `Mod+Space`, `Mod+Ctrl+Return` | App launcher |
-| `Mod+S` | Control center |
-| `Mod+Shift+S` | Noctalia settings |
+| `Mod+Alt+S` | Control center |
+| `Mod+Alt+Shift+S` | Noctalia settings |
 | `Mod+Shift+Return` | Wallpaper picker |
 | `Mod+Alt+L` | Lock screen |
 | `Mod+Shift+Q` | Session menu |
@@ -99,6 +99,8 @@ Mod = Super.
 ### Screenshots & System
 | Binding | Action |
 |---------|--------|
+| `Mod+S` | Region screenshot (interactive picker) |
+| `Mod+Shift+S` | Full screen screenshot |
 | `Ctrl+Shift+1` | Region screenshot (niri UI) |
 | `Ctrl+Shift+2` | Full screen |
 | `Ctrl+Shift+3` | Window |
